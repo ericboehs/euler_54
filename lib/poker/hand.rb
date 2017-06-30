@@ -11,12 +11,12 @@ module Poker
     end
 
     def initialize cards
-      @cards = cards
+      @cards = cards.sort
       @score = score
     end
 
     def highest_card
-      cards.sort.last
+      cards.last
     end
 
     def highest_card_index_scored
@@ -38,10 +38,7 @@ module Poker
     end
 
     def score
-      SCORES.reverse.map do |score_to_check|
-        score = self.public_send score_to_check
-        break score if score
-      end
+      SCORES.reverse.map { |score| break score if self.public_send score }
     end
 
     def score_index
@@ -49,55 +46,52 @@ module Poker
     end
 
     def high_card
-      :high_card
+      true
     end
 
     def one_pair
-      :one_pair if duplicates.count == 1 && duplicates.values == [2]
+      duplicates.values == [2]
     end
 
     def two_pair
-      :two_pair if duplicates.count == 2 && duplicates.values == [2, 2]
+      duplicates.values == [2, 2]
     end
 
     def three_of_a_kind
-      :three_of_a_kind if duplicates.count == 1 && duplicates.values == [3]
+      duplicates.values == [3]
     end
 
     def straight
-      :straight if succession?
+      cards.each_cons(2).all? { |card, next_card| next_card.value == card.next_highest_card&.value }
     end
 
     def flush
-      :flush if suits.length == 1
+      suits.length == 1
     end
 
     def full_house
-      :full_house if duplicates.count == 2 && duplicates.values.sort == [2, 3]
+      duplicates.values.sort == [2, 3]
     end
 
     def four_of_a_kind
-      :four_of_a_kind if duplicates.count == 1 && duplicates.values == [4]
+      duplicates.values == [4]
     end
 
     def straight_flush
-      :straight_flush if straight && flush
+      straight && flush
     end
 
     def royal_flush
-      :royal_flush if straight && flush && cards.sort.last.value == 'A'
+      straight && flush && highest_card.value == 'A'
     end
 
     private
 
     def duplicates
-      cards
-        .each_with_object(Hash.new 0) { |card, hash| hash[card.value_index] += 1 }
-        .delete_if { |_, count| count == 1 }
-    end
-
-    def succession?
-      cards.sort.map(&:value_index).each_cons(2).all? { |card, next_card| next_card == card + 1 }
+      @duplicates ||=
+        cards
+          .each_with_object(Hash.new 0) { |card, dup_count| dup_count[card.value_index] += 1 }
+          .delete_if { |_, count| count == 1 }
     end
   end
 end
