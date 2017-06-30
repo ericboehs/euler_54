@@ -1,31 +1,47 @@
 module Poker
+  # Represents a hand of cards in Poker
   class Hand
+    # Ranks of poker hands
     SCORES = %i(
       high_card one_pair two_pair three_of_a_kind straight flush full_house four_of_a_kind straight_flush royal_flush
     )
 
-    attr_accessor :cards
+    # [Array] of [Card]s in [Hand]
+    attr_reader :cards
 
+    # @param hands [Array] All of the [Hand]s you want to compare
+    # @return [Hand] The winning hand
     def self.best hands
       hands.sort.last
     end
 
+    # A poker hand
+    #
+    # @param cards [Array] All of the [Card]s in the [Hand]
     def initialize cards
       @cards = cards.sort
     end
 
+    # @return [Card] Highest card in the hand
     def highest_card
       cards.last
     end
 
+    # @return [Integer] Value index of the highest card in the scored hand or the highest "high card" index
     def highest_card_index_scored
       duplicates.keys.sort.last || highest_card.value_index
     end
 
+    # @return [Array] Suits in the [Hand]
     def suits
       cards.map(&:suit).uniq
     end
 
+    # Compares two [Hand]s
+    #
+    # @param other_hand [Hand] Right side hand to compare to this hand
+    # @return [Integer] `-1` if this is the winning hand, `0` if it's a draw and `1` if the `other_hand` is
+    #   the winning hand.
     def <=> other_hand
       if score_index < other_hand.score_index
         -1
@@ -36,13 +52,20 @@ module Poker
       end
     end
 
+    # @return [Symbol] Score of hand (e.g. `:full_house`)
+    # @see SCORES
     def score
-      SCORES.reverse.map { |score| break score if self.public_send score }
+      SCORES.reverse.map { |score| break score if send score }
     end
 
+    # Used for comparing two [Hand]s
+    #
+    # @return [Integer] Index of the score
     def score_index
       SCORES.index score
     end
+
+    private
 
     def high_card
       true
@@ -83,8 +106,6 @@ module Poker
     def royal_flush
       straight && flush && highest_card.value == 'A'
     end
-
-    private
 
     def duplicates
       @duplicates ||=
