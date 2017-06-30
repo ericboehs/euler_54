@@ -7,10 +7,10 @@ module Poker
     # Alphabetically sorted [Card] suits
     SUITS = %w(C D H S)
 
-    # [String] Value of the card (e.g. '2' or 'Q')
+    # @return [String] Value of the card (e.g. '2' or 'Q')
     attr_reader :value
 
-    # String] First letter of the suit of the [Card] (e.g. 'D' or 'S')
+    # @return [String] First letter of the suit of the [Card] (e.g. 'D' or 'S')
     attr_reader :suit
 
     # A poker card
@@ -39,7 +39,7 @@ module Poker
       VALUES.index value
     end
 
-    # @return [Card] The next highest [Card] of same suit (e.g. a 3 if this [Card] is a 2)
+    # @return [Card] The next highest [Card] of same suit (e.g. a 3S if this [Card] is a 2S)
     # @return [nil] if this [Card] is an Ace
     def next_highest_card
       self.class.new VALUES[value_index + 1], suit
