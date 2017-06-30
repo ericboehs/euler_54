@@ -1,5 +1,4 @@
-require_relative '../../lib/poker'
-require 'minitest/autorun'
+require 'test_helper'
 
 module Poker
   class HandTest < MiniTest::Test

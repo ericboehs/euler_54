@@ -1,6 +1,8 @@
-require_relative 'lib/poker'
+$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
+
 require 'bundler/setup'
 require 'sinatra'
+require 'poker'
 
 class PokerResults
   attr_accessor :hands_won

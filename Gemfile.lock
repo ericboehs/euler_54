@@ -2,7 +2,10 @@ GEM
   remote: https://rubygems.org/
   specs:
     coderay (1.1.1)
+    docile (1.1.5)
+    json (2.1.0)
     method_source (0.8.2)
+    minitest (5.10.2)
     mustermann (1.0.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -11,6 +14,11 @@ GEM
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
+    simplecov (0.14.1)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.1)
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -23,7 +31,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  minitest
   pry
+  simplecov
   sinatra
 
 RUBY VERSION

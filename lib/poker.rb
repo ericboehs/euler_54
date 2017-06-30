@@ -1,5 +1,5 @@
-require_relative 'poker/card'
-require_relative 'poker/hand'
+require 'poker/card'
+require 'poker/hand'
 
 # Ranks Poker Hands and Cards
 module Poker
