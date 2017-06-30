@@ -110,6 +110,15 @@ module Poker
       assert_equal -1, straight_flush <=> royal_flush
       assert_equal 0, royal_flush <=> royal_flush
       assert_equal 1, royal_flush <=> straight_flush
+
+      assert_equal royal_flush, Poker::Hand.best([royal_flush, straight_flush])
+    end
+
+    def test_score_comparison_with_same_score
+      hand_1_pair = Poker::Hand.new [ace_of_hearts, ace_of_spades]
+      hand_2_pair = Poker::Hand.new [queen_of_hearts, queen_of_spades, ace_of_hearts]
+
+      assert_equal hand_1_pair, Poker::Hand.best([hand_1_pair, hand_2_pair])
     end
   end
 end

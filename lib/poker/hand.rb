@@ -7,20 +7,25 @@ module Poker
 
     attr_accessor :cards
 
+    def self.best hands
+      hands.sort.last
+    end
+
     def initialize cards
       @cards = cards
+      @score = score
     end
 
     def highest_card
       cards.sort.last
     end
 
-    def suits
-      cards.map(&:suit).uniq
+    def highest_card_index_scored
+      duplicates.keys.sort.last || highest_card.value_index
     end
 
-    def best_hand other_hand
-      self <=> other_hand
+    def suits
+      cards.map(&:suit).uniq
     end
 
     def <=> other_hand
@@ -29,7 +34,7 @@ module Poker
       elsif score_index > other_hand.score_index
         1
       else
-        highest_card <=> other_hand.highest_card
+        highest_card_index_scored <=> other_hand.highest_card_index_scored
       end
     end
 
@@ -88,7 +93,7 @@ module Poker
 
     def duplicates
       cards
-        .each_with_object(Hash.new 0) { |card, hash| hash[card.value] += 1 }
+        .each_with_object(Hash.new 0) { |card, hash| hash[card.value_index] += 1 }
         .delete_if { |_, count| count == 1 }
     end
 
