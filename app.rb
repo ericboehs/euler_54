@@ -1,4 +1,6 @@
 require_relative 'lib/poker'
+require 'bundler/setup'
+require 'sinatra'
 
 class PokerResults
   attr_accessor :hands_won
@@ -33,6 +35,8 @@ class PokerResults
   end
 end
 
-results = PokerResults.new
-results.calculate
-puts results.hands_won
+get '/' do
+  results = PokerResults.new
+  results.calculate
+  "<h1>Player 1 games won: #{results.hands_won[:player_1]}</h1>"
+end
