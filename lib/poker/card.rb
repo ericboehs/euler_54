@@ -7,6 +7,7 @@ module Poker
     attr_accessor :value, :suit
 
     def initialize value, suit
+      raise InvalidCardValue unless VALUES.include? value.to_s.upcase
       @value = value.upcase
       @suit = suit.upcase
       @description = "#{value}#{SUIT_CHARACTERS[suit_index]}"
@@ -26,6 +27,8 @@ module Poker
 
     def next_highest_card
       self.class.new VALUES[value_index + 1], suit
+    rescue Poker::InvalidCardValue
+      # Return nil if current card is an Ace
     end
   end
 end
