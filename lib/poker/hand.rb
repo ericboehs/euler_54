@@ -12,7 +12,6 @@ module Poker
 
     def initialize cards
       @cards = cards.sort
-      @score = score
     end
 
     def highest_card
