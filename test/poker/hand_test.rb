@@ -16,7 +16,7 @@ module Poker
     end
 
     def ten_of_hearts
-      Poker::Card.new '10', 'h'
+      Poker::Card.new 't', 'h'
     end
 
     def jack_of_hearts
